@@ -1,111 +1,125 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>PedeAki - Catálogo Online</title>
-    <link rel="stylesheet" href="src/css/styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-</head>
+    <link rel="stylesheet" href="src/css/styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+  </head>
 
-<body>
+  <body>
+    <header class="header" id="banner">
+      <div class="container">
+        <img
+          src="src/images/logotipopedeaki.png"
+          class="logo"
+          alt="Logo Pedeaki"
+        />
+      </div>
 
-<header class="header" id="banner">
-    <div class="container">
-    <img src="src/images/logotipopedeaki.png" class="logo" alt="Logo Pedeaki">
-    </div>
-    
-    <section class="banner">
+      <section class="banner">
         <div class="carousel">
-            <img src="src/images/banners/banner1.png" class="slide active">
-            <img src="src/images/banners/banner2.png" class="slide">
-            <img src="src/images/banners/banner3.png" class="slide">
+          <img src="src/images/banners/banner1.png" class="slide active" />
+          <img src="src/images/banners/banner2.png" class="slide" />
+          <img src="src/images/banners/banner3.png" class="slide" />
         </div>
-    </section>
-</header>
-    
-<!-- MENU -->
-<nav class="menu-categorias">
-    <a href="#acougue">AÇOUGUE</a>
-    <a href="#hortifruti">HORTIFRUTI</a>
-    <a href="#mercearia">MERCEARIA</a>
-    <a href="#bebidas">BEBIDAS</a>
-    <a href="#limpeza">LIMPEZA</a>
-</nav>
+      </section>
+    </header>
 
-<main>
+    <!-- MENU -->
+    <nav class="menu-categorias">
+      <a href="#acougue">AÇOUGUE</a>
+      <a href="#hortifruti">HORTIFRUTI</a>
+      <a href="#mercearia">MERCEARIA</a>
+      <a href="#bebidas">BEBIDAS</a>
+      <a href="#limpeza">LIMPEZA</a>
+    </nav>
 
-    <div class="container">
-    <h2 class="titulo-catalogo"></h2>
-    </div>
+    <main>
+      <div class="container">
+        <h2 class="titulo-catalogo"></h2>
+      </div>
 
-    <section id="acougue" class="categoria">
-    <div class="container">
-        <h2>Açougue</h2>
-        <div class="produtos-grid" id="acougue-produtos"></div>
-    </div>
-    </section>
+      <section id="acougue" class="categoria">
+        <div class="container">
+          <h2>Açougue</h2>
+          <div class="produtos-grid" id="acougue-produtos"></div>
+        </div>
+      </section>
 
-    <section id="hortifruti" class="categoria">
-    <div class="container">
-        <h2>Hortifruti</h2>
-        <div class="produtos-grid" id="hortifruti-produtos"></div>
-    </div>
-    </section>
+      <section id="hortifruti" class="categoria">
+        <div class="container">
+          <h2>Hortifruti</h2>
+          <div class="produtos-grid" id="hortifruti-produtos"></div>
+        </div>
+      </section>
 
-    <section id="mercearia" class="categoria">
-    <div class="container">
-        <h2>Mercearia</h2>
-        <div class="produtos-grid" id="mercearia-produtos"></div>
-    </div>
-    </section>
+      <section id="mercearia" class="categoria">
+        <div class="container">
+          <h2>Mercearia</h2>
+          <div class="produtos-grid" id="mercearia-produtos"></div>
+        </div>
+      </section>
 
-    <section id="bebidas" class="categoria">
-    <div class="container">
-        <h2>Bebidas</h2>
-        <div class="produtos-grid" id="bebidas-produtos"></div>
-    </div>
-    </section>
+      <section id="bebidas" class="categoria">
+        <div class="container">
+          <h2>Bebidas</h2>
+          <div class="produtos-grid" id="bebidas-produtos"></div>
+        </div>
+      </section>
 
-    <section id="limpeza" class="categoria">
-    <div class="container">
-        <h2>Limpeza</h2>
-        <div class="produtos-grid" id="limpeza-produtos"></div>
-    </div>
-    </section>
+      <section id="limpeza" class="categoria">
+        <div class="container">
+          <h2>Limpeza</h2>
+          <div class="produtos-grid" id="limpeza-produtos"></div>
+        </div>
+      </section>
+    </main>
 
-</main>
+    <!-- CARRINHO -->
+    <aside class="carrinho">
+      <div class="container">
+        <h3><i class="fas fa-shopping-cart"></i> Seu Pedido</h3>
 
-<!-- CARRINHO -->
-<aside class="carrinho">
-    <div class="container">
-    <h3><i class="fas fa-shopping-cart"></i> Seu Pedido</h3>
+        <div class="carrinho-itens" id="lista-produtos"></div>
 
-    <div class="carrinho-itens" id="lista-produtos"></div>
+        <div class="dados-clientes">
+          <input type="text" id="nome-cliente" placeholder="Seu nome" />
+          <textarea
+            id="endereco-cliente"
+            placeholder="Digite seu endereço"
+            rows="3"
+          ></textarea>
+        </div>
 
-    <div class="dados-clientes">
-        <input type="text" id="nome-cliente" placeholder="Seu nome">
-        <textarea id="endereco-cliente" placeholder="Digite seu endereço" rows="3"></textarea>
-    </div>
+        <div class="carrinho-total">
+          <p>Total: <span id="total-pedido">R$ 0,00</span></p>
+          <button onclick="finalizarPedido()" class="btn-finalizar">
+            <i class="fab fa-whatsapp"></i> Finalizar Pedido
+          </button>
+        </div>
+      </div>
+    </aside>
 
-    <div class="carrinho-total">
-        <p>Total: <span id="total-pedido">R$ 0,00</span></p>
-        <button onclick="finalizarPedido()" class="btn-finalizar">
-        <i class="fab fa-whatsapp"></i> Finalizar Pedido
-        </button>
-    </div>
-    </div>
-</aside>
+    <footer class="footer">
+      <div class="container">
+        <p>Nokaiz Tecnologia © 2026</p>
+      </div>
+    </footer>
 
-<footer class="footer">
-    <div class="container">
-    <p>Nokaiz Tecnologia © 2026</p>
-    </div>
-</footer>
+    <script src="src/js/script.js"></script>
 
-<script src="src/js/script.js"></script>
+    <button
+      id="btn-topo"
+      onclick="window.scrollTo({ top: 0, behavior: 'smooth' })"
+    >
+      ⬆
+    </button>
 
-<button id="btn-topo" onclick="window.scrollTo({top:0, behavior:'smooth'})">⬆</button>
-
-</body>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  </body>
 </html>
