@@ -12,6 +12,7 @@
   </head>
 
   <body>
+    <!-- LOGO OFICIAL -->
     <header class="header" id="banner">
       <div class="container">
         <img
@@ -21,6 +22,7 @@
         />
       </div>
 
+      <!-- CARROSSEL BANNER 3 IMAGENS -->
       <section class="banner">
         <div class="carousel">
           <img src="src/images/banners/banner1.png" class="slide active" />
@@ -30,7 +32,7 @@
       </section>
     </header>
 
-    <!-- MENU -->
+    <!-- BARRA MENU CATÁLOGO -->
     <nav class="menu-categorias">
       <a href="#acougue">AÇOUGUE</a>
       <a href="#hortifruti">HORTIFRUTI</a>
@@ -39,6 +41,7 @@
       <a href="#limpeza">LIMPEZA</a>
     </nav>
 
+    <!-- CATALOGO DE PRODUTOS -->
     <main>
       <div class="container">
         <h2 class="titulo-catalogo"></h2>
@@ -80,13 +83,14 @@
       </section>
     </main>
 
-    <!-- CARRINHO -->
+    <!-- CARRINHO DE COMPRAS -->
     <aside class="carrinho">
       <div class="container">
         <h3><i class="fas fa-shopping-cart"></i> Seu Pedido</h3>
 
         <div class="carrinho-itens" id="lista-produtos"></div>
 
+        <!-- DADOS DO CLIENTE -->
         <div class="dados-clientes">
           <input type="text" id="nome-cliente" placeholder="Seu nome" />
           <textarea
@@ -96,6 +100,7 @@
           ></textarea>
         </div>
 
+        <!-- TOTAL E BOTÃO FINALIZAR PEDIDO -->
         <div class="carrinho-total">
           <p>Total: <span id="total-pedido">R$ 0,00</span></p>
           <button onclick="finalizarPedido()" class="btn-finalizar">
@@ -105,23 +110,28 @@
       </div>
     </aside>
 
+    <!-- RODAPÉ -->
     <footer class="footer">
-      <div class="container">
-        <p>Nokaiz Tecnologia © 2026</p>
-      </div>
+      <p>Desenvolvido por Nokaiz Tecnologia © 2026</p>
+      <a
+        href="https://wa.me/63999665779"
+        style="color: white; font-size: 0.8rem; text-decoration: underline"
+      >
+        Quer um sistema para o seu mercado? Clique aqui.
+      </a>
     </footer>
 
+    <!-- SCRIPTS -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="src/js/script.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-    <script src="src/js/script.js"></script>
-
+    <!-- BOTÃO VOLTAR AO TOPO -->
     <button
       id="btn-topo"
       onclick="window.scrollTo({ top: 0, behavior: 'smooth' })"
     >
       ⬆
     </button>
-
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   </body>
 </html>

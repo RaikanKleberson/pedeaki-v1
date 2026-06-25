@@ -1,14 +1,16 @@
+//CONEXÃO COM O BANCO DE DADOS SUPABASE
 const SUPABASE_URL = "https://hvskcvrudpuqwpvoyxrk.supabase.co";
 const SUPABASE_KEY = "sb_publishable_JQ2wiXMsvXgdvYGbnfS1Gw_sYGNndgK";
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 let produtos = [];
 
-// Função para salvar no navegador
+// FUNÇÃO QUE SALVA NO NAVEGADOR | SALVA NO LOCALSTORAGE E NÃO PERDE
 function salvarDados() {
   localStorage.setItem("carrinho_pedeaki", JSON.stringify(produtos));
 }
 
+//CARREGA OS PRODUTOS DO SUPABASE E INICIALIZA O CATALOGO DO SISTEMA
 async function carregarProdutosDoSupabase() {
   const { data, error } = await sb.from("produtos").select("*");
   if (error) {
@@ -16,7 +18,7 @@ async function carregarProdutosDoSupabase() {
     return;
   }
 
-  // Verifica se tem algo salvo no navegador
+  // VERIFICA SE TEM ALGO SALVO NO NAVEGADOR | VERIFICA NO LOCALSTORAGE
   const dadosSalvos = localStorage.getItem("carrinho_pedeaki");
 
   if (dadosSalvos) {
@@ -36,6 +38,7 @@ async function carregarProdutosDoSupabase() {
   atualizarCarrinho();
 }
 
+//INICIA CATEGORIA DO CATÁLOGO
 function inicializarCatalogo() {
   const categorias = [
     "acougue",
@@ -111,3 +114,31 @@ function atualizarCarrinho() {
 }
 
 document.addEventListener("DOMContentLoaded", carregarProdutosDoSupabase);
+
+function finalizarPedido() {
+  let mensagem = "Olá! Gostaria de fazer o seguinte pedido:%0A%0A";
+  let totalPedido = 0;
+
+  // Percorre os produtos para montar a lista de texto
+  produtos.forEach((p) => {
+    if (p.qtd > 0) {
+      mensagem += `* ${p.qtd}x ${p.nome} - R$ ${(p.preco * p.qtd).toFixed(2)}%0A`;
+      totalPedido += p.preco * p.qtd;
+    }
+  });
+
+  // Se o carrinho estiver vazio, avisa o usuário
+  if (totalPedido === 0) {
+    alert("Seu carrinho está vazio!");
+    return;
+  }
+
+  mensagem += `%0A*Total: R$ ${totalPedido.toFixed(2)}*`;
+
+  // Substitua pelo número de telefone do mercadinho (com DDD e 9)
+  const numeroWhatsApp = "5563999665779";
+  const urlWhatsApp = `https://wa.me/${numeroWhatsApp}?text=${mensagem}`;
+
+  // Abre o WhatsApp
+  window.open(urlWhatsApp, "_blank");
+}

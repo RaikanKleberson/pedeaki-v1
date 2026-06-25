@@ -6,6 +6,7 @@
   font-family: "Poppins", sans-serif;
 }
 
+/* ===== BODY & CONTAINER ===== */
 body {
   background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
   color: #333;
@@ -31,7 +32,7 @@ body {
   height: auto;
 }
 
-/* == SLIDE BANNER == */
+/* == SLIDE BANNER 3 IMAGENS == */
 .banner {
   padding: 10px 0 0;
 }
@@ -59,7 +60,7 @@ body {
   opacity: 1;
 }
 
-/*  Menu Categorias */
+/*  MENU CATEGORIAS */
 .menu-categorias {
   position: relative;
   top: 0;
