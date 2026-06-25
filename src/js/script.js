@@ -1,111 +1,36 @@
-// Substitua pelas suas credenciais reais do Supabase
+// 1. Inicialização Supabase
 const supabase = supabase.createClient(
+  "https://hvskcvrudpuqwpvoyxrk.supabase.co",
   "sb_publishable_JQ2wiXMsvXgdvYGbnfS1Gw_sYGNndgK",
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh2c2tjdnJ1ZHB1cXdwdm95eHJrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIzMTE1MTUsImV4cCI6MjA5Nzg4NzUxNX0.fFRAqJLBoG3WK5-SdtomOC4PiuAqAyv05f9R0qttiYU",
 );
 
-async function carregarProdutos() {
-  const { data: produtos, error } = await supabase.from("produtos").select("*");
+// Array principal que a lógica do carrinho vai usar
+let produtos = [];
+
+async function buscarProdutosDoSupabase() {
+  const { data, error } = await supabase.from("produtos").select("*");
 
   if (error) {
-    console.error("Erro ao buscar produtos:", error);
+    console.error("Erro:", error);
     return;
   }
 
-  // Agora, vamos percorrer os produtos e jogar cada um na sua categoria
-  produtos.forEach((produto) => {
-    // Exemplo: se a categoria for 'acougue', joga na div 'acougue-produtos'
-    const container = document.getElementById(`${produto.categoria}-produtos`);
+  // Transformamos os dados do banco para o padrão que seu código precisa
+  produtos = data.map((p) => ({
+    ...p,
+    qtd: 0, // Iniciamos a quantidade em 0 para a lógica do carrinho
+    imagem: p.foto_url, // Ajuste para o nome que seu HTML espera
+  }));
 
-    if (container) {
-      container.innerHTML += `
-                <div class="produto-card">
-                    <img src="${produto.foto_url}" alt="${produto.nome}">
-                    <h3>${produto.nome}</h3>
-                    <p>R$ ${produto.preco}</p>
-                    <button onclick="adicionarAoCarrinho(${produto.id})">Adicionar</button>
-                </div>
-            `;
-    }
-  });
+  inicializarCatalogo(); // Só chamamos o render depois que os dados chegarem
 }
 
-// Dados dos produtos com CATEGORIAS
-const produtos = [
-  // AÇOUGUE
-  {
-    id: 1,
-    nome: "Picanha 1kg",
-    preco: 89.9,
-    qtd: 0,
-    categoria: "acougue",
-    imagem: "src/images/produtos/picanha.png",
-  },
-  {
-    id: 2,
-    nome: "Frango Inteiro",
-    preco: 18.9,
-    qtd: 0,
-    categoria: "acougue",
-    imagem: "src/images/produtos/frango.png",
-  },
-
-  // HORTIFRUTI
-  {
-    id: 3,
-    nome: "Tomate kg",
-    preco: 6.5,
-    qtd: 0,
-    categoria: "hortifruti",
-    imagem: "src/images/produtos/tomate.png",
-  },
-  {
-    id: 4,
-    nome: "Alface Unid.",
-    preco: 3.5,
-    qtd: 0,
-    categoria: "hortifruti",
-    imagem: "src/images/produtos/alface.png",
-  },
-
-  // MERCEARIA
-  {
-    id: 5,
-    nome: "Arroz 5kg",
-    preco: 28.9,
-    qtd: 0,
-    categoria: "mercearia",
-    imagem: "src/images/produtos/arroz.png",
-  },
-  {
-    id: 6,
-    nome: "Feijão 1kg",
-    preco: 8.5,
-    qtd: 0,
-    categoria: "mercearia",
-    imagem: "src/images/produtos/feijao.png",
-  },
-
-  // BEBIDAS
-  {
-    id: 7,
-    nome: "Coca-Cola 2L",
-    preco: 9.9,
-    qtd: 0,
-    categoria: "bebidas",
-    imagem: "src/images/produtos/cocacola2l.png",
-  },
-
-  // LIMPEZA
-  {
-    id: 8,
-    nome: "Detergente 500ml",
-    preco: 2.5,
-    qtd: 0,
-    categoria: "limpeza",
-    imagem: "src/images/produtos/detergente.png",
-  },
-];
+// Chame a busca ao carregar a página
+document.addEventListener("DOMContentLoaded", () => {
+  buscarProdutosDoSupabase();
+  carregarCarrinho();
+  atualizarCarrinho();
+});
 
 // Elementos do DOM
 const listaCarrinhoEl = document.getElementById("lista-produtos");
