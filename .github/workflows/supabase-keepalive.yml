@@ -1,0 +1,16 @@
+name: Supabase Keep Alive
+
+on:
+  schedule:
+    - cron: "0 12 */3 * *"
+  workflow_dispatch:
+
+jobs:
+  keep-alive:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Ping Supabase
+        run: |
+          curl -s "https://hvskcvrudpuqwpvoyxrk.supabase.co/rest/v1/produtos?select=id&limit=1" \
+            -H "apikey: ${{ secrets.SUPABASE_KEY }}"
