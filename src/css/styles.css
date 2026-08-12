@@ -69,22 +69,23 @@ aspect-ratio: 3840 / 1000;
   padding: 6px 0;
 
   display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px;
 
   overflow-x: auto;
   white-space: nowrap;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
   border-bottom: 1px solid #e5e5e5;
+}
+
+.menu-categorias::-webkit-scrollbar {
+  display: none;
 }
 
 .menu-categorias a {
   flex-shrink: 0;
-}
-
-section {
-  scroll-margin-top: 80px;
-  padding: 24px 16px;
-}
-
-.menu-categorias a {
   text-decoration: none;
   color: #000000;
   padding: 8px 13px;
@@ -103,6 +104,15 @@ section {
 .menu-categorias a.ativo {
   background: #4b4b4b;
   color: #fff;
+}
+
+@media (max-width: 600px) {
+  .menu-categorias {
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+    gap: 10px;
+    padding: 10px;
+  }
 }
 
 /* Título Catálogo */
@@ -152,7 +162,6 @@ section {
   font-weight: bold;
   margin-bottom: 20px;
 }
-
 /* CONTROLES DE QUANTIDADE */
 .controles {
   display: flex;
@@ -272,11 +281,6 @@ section {
 
 /* ===== RESPONSIVIDADE ===== */
 @media (max-width: 768px) {
-  .produtos-grid {
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 15px;
-  }
-
   .container {
     padding: 0 15px;
   }
@@ -284,6 +288,8 @@ section {
   .banner-img {
     border-radius: 8px;
   }
+
+  
 }
 
 #btn-topo {
@@ -301,28 +307,43 @@ section {
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
 
-/* Container que envolve os links do menu */
-.menu-categorias {
+.logonokaiz {
+  width: 90px;
+  height: auto;
+  justify-content: center;
+}
+
+.footer {
+  background: #2c3e50;
+  color: white;
   display: flex;
-  overflow-x: auto; /* Habilita a rolagem lateral */
-  white-space: nowrap; /* Impede que os itens quebrem linha */
-  padding: 10px;
-  gap: 15px; /* Espaço entre os itens */
-  -webkit-overflow-scrolling: touch; /* Deixa o "scroll" do iPhone mais fluido */
-  scrollbar-width: none; /* Esconde a barra de rolagem no Firefox */
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 20px 16px;
+  text-align: center;
+  margin-top: 50px;
 }
 
-/* Esconde a barra de rolagem no Chrome/Safari */
-.menu-categorias::-webkit-scrollbar {
-  display: none;
+.footer-dev {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
-/* Garante que os links não sejam espremidos */
-.menu-categorias a {
-  flex: 0 0 auto; /* Impede que o item encolha */
-  text-decoration: none;
-  color: #333;
-  font-weight: bold;
-  padding: 10px 15px;
-  border-radius: 20px; /* Deixa com aquela carinha de botão */
+.desenv {
+  font-size: 0.7rem;
+}
+
+.textsistem {
+  font-size: 0.75rem;
+}
+
+@media (max-width: 600px) {
+  .footer {
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
+  }
 }
