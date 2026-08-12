@@ -57,7 +57,7 @@ function inicializarCatalogo() {
       const card = document.createElement("div");
       card.className = "produto-card";
       card.innerHTML = `
-                <img src="${produto.imagem}" style="width:100%; height:150px; object-fit:cover;">
+                <img src="${produto.imagem}" style="width:100%; height:auto; object-fit:cover;">
                 <h3>${produto.nome}</h3>
                 <p>R$ ${produto.preco.toFixed(2)}</p>
                 <div class="controles">
@@ -142,3 +142,22 @@ function finalizarPedido() {
   // Abre o WhatsApp
   window.open(urlWhatsApp, "_blank");
 }
+
+// ===== CARROSSEL DE BANNERS =====
+
+const slides = document.querySelectorAll(".slide");
+let slideAtual = 0;
+
+function trocarSlide() {
+  slides[slideAtual].classList.remove("active");
+
+  slideAtual++;
+
+  if (slideAtual >= slides.length) {
+    slideAtual = 0;
+  }
+
+  slides[slideAtual].classList.add("active");
+}
+
+setInterval(trocarSlide, 2000);
