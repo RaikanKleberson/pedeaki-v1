@@ -24,15 +24,33 @@ async function carregarProdutosDoSupabase() {
     return;
   }
 
-  // monta o catálogo sempre a partir do banco
-  const catalogoAtual = data.map((p) => ({
+// monta o catálogo sempre a partir do banco (substitua o map original)
+const catalogoAtual = data.map((p) => {
+  // nome pode vir como string ou objeto { pt: "...", en: "..." } etc.
+  let nome = p.nome;
+  if (typeof nome === "object" && nome !== null) {
+    nome = nome.pt || nome.br || nome.name || JSON.stringify(nome);
+  }
+
+  // preço pode vir como string ou número; se for objeto, tentar extrair
+  let preco = p.preco;
+  if (typeof preco === "object" && preco !== null) {
+    preco = preco.valor ?? preco.price ?? JSON.stringify(preco);
+  }
+  preco = parseFloat(preco) || 0;
+
+  const categoria =
+    (typeof p.categoria === "string" ? p.categoria : (p.categoria?.toString?.() ?? "")).toLowerCase();
+
+  return {
     id: p.id,
-    nome: p.nome,
-    preco: parseFloat(p.preco),
-    categoria: p.categoria.toLowerCase(),
+    nome,
+    preco,
+    categoria,
     imagem: p.foto_url,
     qtd: 0,
-  }));
+  };
+});
 
   // recupera só as quantidades salvas de um carrinho anterior
   const carrinhoSalvo = localStorage.getItem("carrinho_pedeaki");
