@@ -6,6 +6,11 @@
   font-family: "Poppins", sans-serif;
 }
 
+/* ===== EVITA ZOOM EM TOQUE ===== */
+* {
+  touch-action: manipulation;
+}
+
 /* ===== EVITA SCROLL HORIZONTAL ===== */
 
 html, body {
@@ -43,29 +48,53 @@ body {
 
 /* ===== BANNER ===== */
 .banner {
-  padding: 10px 0 0;
+  width: 100%;
+  padding: 0;
+  background: #fff;
 }
 
 .carousel {
   width: 100%;
-  aspect-ratio: 3840 / 1000; /* mantém proporção do banner */
+  max-width: 1200px;
+  margin: 0 auto;
   position: relative;
   overflow: hidden; /* esconde o que sair da área */
+  background: #f0f0f0;
 }
 
 .slide {
   width: 100%;
-  height: 100%;
-  object-fit: cover; /* preenche a área mantendo proporção */
+  height: auto; /* Altura automática */
+  display: block;
+  object-fit: contain; /* MOSTRA A IMAGEM INTEIRA sem cortar */
+  transition: opacity 0.5s ease;
+  opacity: 0;
   position: absolute;
   top: 0;
   left: 0;
-  opacity: 0;
-  transition: opacity 0.5s ease; /* suaviza a troca */
 }
 
 .slide.active {
-  opacity: 1; /* mostra o slide ativo */
+  opacity: 1;
+  position: relative; /* Volta ao fluxo normal quando ativo */
+}
+
+/* Garante que o container tenha altura dinâmica */
+.carousel {
+  min-height: 200px; /* Altura mínima pra não quebrar em telas pequenas */
+}
+
+/* Ajuste fino para mobile */
+@media (max-width: 768px) {
+  .carousel {
+    min-height: 150px;
+  }
+}
+
+@media (max-width: 480px) {
+  .carousel {
+    min-height: 120px;
+  }
 }
 
 /* ===== MENU CATEGORIAS ===== */
