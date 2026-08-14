@@ -2,7 +2,7 @@
 * {
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
+  box-sizing: border-box; /* inclui padding e borda no tamanho */
   font-family: "Poppins", sans-serif;
 }
 
@@ -14,9 +14,10 @@ body {
 }
 
 .container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 50px;
+  width: 100%; /* ocupa o espaço disponível */
+  max-width: 1200px; /* limita em telas grandes */
+  margin: 0 auto; /* centraliza */
+  padding: 0 50px; /* espaço interno */
 }
 
 /* ===== HEADER ===== */
@@ -27,67 +28,57 @@ body {
 
 .logo {
   display: block;
-  margin: 0 auto;
   width: 100px;
-  height: auto;
+  height: auto; /* mantém proporção */
+  margin: 0 auto;
 }
 
-/* == SLIDE BANNER 3 IMAGENS == */
+/* ===== BANNER ===== */
 .banner {
   padding: 10px 0 0;
 }
+
 .carousel {
   width: 100%;
-aspect-ratio: 3840 / 1000;
+  aspect-ratio: 3840 / 1000; /* mantém proporção do banner */
   position: relative;
-  overflow: hidden;
+  overflow: hidden; /* esconde o que sair da área */
 }
 
 .slide {
   width: 100%;
   height: 100%;
-  objective-fit: cover;
+  object-fit: cover; /* preenche a área mantendo proporção */
   position: absolute;
   top: 0;
   left: 0;
   opacity: 0;
-  transition: opacity 0.5s ease;
+  transition: opacity 0.5s ease; /* suaviza a troca */
 }
 
 .slide.active {
-  opacity: 1;
+  opacity: 1; /* mostra o slide ativo */
 }
 
-/*  MENU CATEGORIAS */
+/* ===== MENU CATEGORIAS ===== */
 .menu-categorias {
-  position: relative;
-  top: 0;
-  left: 0;
   width: 100%;
   background: #fff;
   z-index: 1000;
-  padding: 6px 0;
+  padding: 6px 10px;
 
   display: flex;
   justify-content: center;
-  flex-wrap: wrap;
+  flex-wrap: wrap; /* quebra para a linha de baixo */
   gap: 8px;
 
-  overflow-x: auto;
-  white-space: nowrap;
-  scrollbar-width: none;
-  -webkit-overflow-scrolling: touch;
   border-bottom: 1px solid #e5e5e5;
 }
 
-.menu-categorias::-webkit-scrollbar {
-  display: none;
-}
-
 .menu-categorias a {
-  flex-shrink: 0;
+  flex-shrink: 0; /* impede o botão de encolher */
   text-decoration: none;
-  color: #000000;
+  color: #000;
   padding: 8px 13px;
   border-radius: 20px;
   font-weight: 500;
@@ -98,7 +89,7 @@ aspect-ratio: 3840 / 1000;
 
 .menu-categorias a:hover {
   background: #004b0c;
-  color: #ffffff;
+  color: #fff;
 }
 
 .menu-categorias a.ativo {
@@ -106,16 +97,7 @@ aspect-ratio: 3840 / 1000;
   color: #fff;
 }
 
-@media (max-width: 600px) {
-  .menu-categorias {
-    justify-content: flex-start;
-    flex-wrap: nowrap;
-    gap: 10px;
-    padding: 10px;
-  }
-}
-
-/* Título Catálogo */
+/* ===== TÍTULO CATÁLOGO ===== */
 .titulo-catalogo {
   text-align: center;
   margin: 1px;
@@ -124,54 +106,70 @@ aspect-ratio: 3840 / 1000;
   font-weight: 700;
 }
 
-/* GRID DE PRODUTOS - 3 COLUNAS */
+/* ===== GRID DE PRODUTOS ===== */
 .produtos-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(0px, 1fr));
-  gap: 25px;
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(180px, 1fr)
+  ); /* adapta a quantidade de colunas */
+  gap: 25px; /* espaço entre os cards */
   margin-bottom: 40px;
 }
 
-/* CARD DE PRODUTO */
-.produto-card {
-  background: white;
-  border-radius: 15px;
-  padding: 20px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-  transition:
-    transform 0.3s ease,
-    box-shadow 0.3s ease;
-  text-align: center;
+/* ===== CARD DE PRODUTO ===== */
+.produto-card img {
+  display: block;
+  width: 100%;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin: 0 auto 10px;
 }
 
-.produto-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+/* ===== IMAGEM DO PRODUTO ===== */
+.produto-card img {
+  display: block;
+  width: 100%; /* acompanha a largura do card */
+  height: auto; /* mantém a proporção */
+  max-width: 100%;
+  margin: 0 auto;
 }
 
+/* ===== NOME DO PRODUTO ===== */
 .produto-nome {
   font-size: 1.3rem;
   color: #2c3e50;
   margin-bottom: 10px;
   font-weight: 600;
+  overflow-wrap: anywhere; /* evita estourar o card */
 }
 
+/* ===== PREÇO DO PRODUTO ===== */
 .produto-preco {
   font-size: 1.5rem;
   color: #27ae60;
   font-weight: bold;
   margin-bottom: 20px;
 }
-/* CONTROLES DE QUANTIDADE */
+
+/* ===== EFEITO DO CARD ===== */
+.produto-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* ===== CONTROLES DE QUANTIDADE ===== */
 .controles {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 15px;
+  gap: 10px;
   margin-top: 15px;
 }
 
 .btn-quantidade {
+  flex-shrink: 0; /* mantém o tamanho do botão */
   background: #3498db;
   color: white;
   border: none;
@@ -195,11 +193,12 @@ aspect-ratio: 3840 / 1000;
 
 /* ===== CARRINHO ===== */
 .carrinho {
+  width: 100%;
+  max-width: 500px;
   background: white;
   padding: 25px;
   border-radius: 15px;
   margin: 30px auto;
-  max-width: 500px;
   box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
 }
 
@@ -232,15 +231,17 @@ aspect-ratio: 3840 / 1000;
   font-weight: bold;
 }
 
-/* Nome e Endereço */
+/* ===== DADOS DO CLIENTE ===== */
 .dados-clientes {
   display: flex;
   flex-direction: column;
   gap: 10px;
   margin-top: 20px;
 }
+
 .dados-clientes input,
 .dados-clientes textarea {
+  width: 100%; /* ocupa o espaço disponível */
   padding: 12px;
   border-radius: 8px;
   border: 1px solid #ccc;
@@ -248,8 +249,9 @@ aspect-ratio: 3840 / 1000;
   resize: none;
 }
 
-/* BOTÃO FINALIZAR */
+/* ===== BOTÃO FINALIZAR ===== */
 .btn-finalizar {
+  width: 100%;
   background: #25d366;
   color: white;
   border: none;
@@ -258,11 +260,12 @@ aspect-ratio: 3840 / 1000;
   border-radius: 50px;
   cursor: pointer;
   margin-top: 20px;
-  width: 100%;
+
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 10px;
+
   transition: background 0.3s;
 }
 
@@ -270,66 +273,52 @@ aspect-ratio: 3840 / 1000;
   background: #1da851;
 }
 
-/* ===== FOOTER ===== */
-.footer {
-  background: #2c3e50;
-  color: white;
-  text-align: center;
-  padding: 20px 0;
-  margin-top: 50px;
-}
-
-/* ===== RESPONSIVIDADE ===== */
-@media (max-width: 768px) {
-  .container {
-    padding: 0 15px;
-  }
-
-  .banner-img {
-    border-radius: 8px;
-  }
-
-  
-}
-
+/* ===== BOTÃO VOLTAR AO TOPO ===== */
 #btn-topo {
   position: fixed;
   bottom: 25px;
   right: 25px;
+
   background: #146300;
   color: white;
   border: none;
+
   width: 45px;
   height: 45px;
+
   border-radius: 20%;
   font-size: 25px;
   cursor: pointer;
+
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
 
-.logonokaiz {
-  width: 90px;
-  height: auto;
-  justify-content: center;
-}
-
+/* ===== FOOTER ===== */
 .footer {
   background: #2c3e50;
   color: white;
+
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
+
   gap: 1.5rem;
   padding: 20px 16px;
-  text-align: center;
   margin-top: 50px;
+
+  text-align: center;
 }
 
 .footer-dev {
   display: flex;
   align-items: center;
   gap: 8px;
+}
+
+.logonokaiz {
+  width: 90px;
+  height: auto; /* mantém proporção */
 }
 
 .desenv {
@@ -340,7 +329,24 @@ aspect-ratio: 3840 / 1000;
   font-size: 0.75rem;
 }
 
+/* ===== RESPONSIVIDADE ===== */
 @media (max-width: 600px) {
+.produtos-grid {
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+  .menu-categorias {
+    justify-content: center;
+    padding: 10px;
+    gap: 6px;
+  }
+
+  .menu-categorias a {
+    padding: 7px 10px;
+    font-size: 0.85rem;
+  }
+
   .footer {
     flex-direction: column;
     gap: 10px;
