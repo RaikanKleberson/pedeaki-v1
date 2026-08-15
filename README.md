@@ -1,6 +1,6 @@
 # PedeAki — Catálogo Online com Pedido via WhatsApp
 
-> Solução digital para pequenos e médios negócios que perdem tempo e dinheiro com pedidos físicos sem confirmação de preço.
+> Catálogo online para negócios onde o cliente monta pedidos com vários itens e finaliza direto pelo WhatsApp, com o valor total sempre visível — eliminando o cancelamento por "susto no preço" que acontece quando o pedido é feito por telefone ou balcão.
 
 ---
 
@@ -49,19 +49,20 @@ Funcionário separa e confirma entrega
 - Checkout com nome e endereço do cliente
 - Envio automático do pedido formatado para o WhatsApp do negócio
 - Dados de produtos carregados via Supabase (banco de dados em nuvem)
+- Validação defensiva de dados vindos do banco (evita quebra do catálogo com dados malformados)
 - Keep Alive automático via GitHub Actions para manter o banco ativo
 
 ---
 
 ## Tecnologias utilizadas
 
-| Camada | Tecnologia |
-|---|---|
-| Frontend | HTML, CSS, JavaScript |
+| Camada         | Tecnologia            |
+| -------------- | --------------------- |
+| Frontend       | HTML, CSS, JavaScript |
 | Banco de dados | Supabase (PostgreSQL) |
-| Hospedagem | GitHub Pages |
-| Automação | GitHub Actions |
-| Integração | WhatsApp API (wa.me) |
+| Hospedagem     | GitHub Pages          |
+| Automação      | GitHub Actions        |
+| Integração     | WhatsApp API (wa.me)  |
 
 ---
 
@@ -87,7 +88,7 @@ O PedeAki é comercializado pela **NOKAIZ Tecnologia** no modelo de assinatura:
 - **Implementação:** configuração inicial, cadastro de produtos e personalização
 - **Mensalidade:** manutenção, suporte e acesso às atualizações
 
-Voltado para pequenos e médios negócios locais que querem digitalizar o atendimento sem depender de aplicativos caros ou complexos.
+Voltado para negócios locais onde o cliente monta pedidos com vários itens por telefone ou WhatsApp, e quer digitalizar esse atendimento sem depender de aplicativos caros ou complexos.
 
 ---
 

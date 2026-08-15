@@ -57,7 +57,44 @@ async function carregarProdutosDoSupabase() {
   }));
 
   inicializarCatalogo();
+  // ===== FILTRO DE CATEGORIA (estilo abas) =====
+function mostrarCategoria(categoria) {
+  document.querySelectorAll(".categoria").forEach((sec) => {
+    sec.classList.remove("ativa");
+  });
+  document.getElementById(categoria).classList.add("ativa");
+
+  document.querySelectorAll(".menu-categorias a").forEach((link) => {
+    link.classList.remove("ativo");
+  });
+  document
+    .querySelector(`.menu-categorias a[href="#${categoria}"]`)
+    .classList.add("ativo");
+
+  window.scrollTo({
+    top: document.querySelector(".menu-categorias").offsetTop,
+    behavior: "smooth",
+  });
+}
+
+document.querySelectorAll(".menu-categorias a").forEach((link) => {
+  link.addEventListener("click", (e) => {
+    e.preventDefault();
+    const categoria = link.getAttribute("href").substring(1);
+    mostrarCategoria(categoria);
+  });
+});
+
+// ===== ABRE O CARRINHO (usado pelo botão flutuante) =====
+function abrirCarrinho() {
+  document.querySelector(".carrinho").scrollIntoView({ behavior: "smooth" });
+}
   atualizarCarrinho();
+  const contador = document.getElementById("carrinho-contador");
+if (contador) {
+  const totalItens = produtos.reduce((acc, p) => acc + p.qtd, 0);
+  contador.innerText = totalItens;
+}
 }
 
 // ===== INICIA O CATÁLOGO =====

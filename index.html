@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" />
-    <title>PedeAki - Catálogo Online</title>
+    <title>PedeAki - Delivery</title>
     <link rel="stylesheet" href="src/css/styles.css" />
     <link
       rel="stylesheet"
@@ -131,6 +131,10 @@
     <!-- SCRIPTS -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="src/js/script.js"></script>
+
+    <button id="btn-carrinho-flutuante" onclick="abrirCarrinho()">
+  🛒 <span id="carrinho-contador">0</span>
+</button>
 
     <!-- BOTÃO VOLTAR AO TOPO -->
     <button
