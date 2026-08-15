@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" />
-    <title>PedeAki - Delivery</title>
+    <title>PedeAki</title>
     <link rel="stylesheet" href="src/css/styles.css" />
     <link
       rel="stylesheet"
@@ -95,14 +95,19 @@
         </div>
 
         <!-- DADOS DO CLIENTE -->
-        <div class="dados-clientes">
-          <input type="text" id="nome-cliente" placeholder="Seu nome completo" />
-          <textarea
-            id="endereco-cliente"
-            placeholder="Rua, número, bairro, complemento"
-            rows="3"
-          ></textarea>
-        </div>
+<div class="dados-clientes">
+  <input type="text" id="nome-cliente" placeholder="Seu nome completo" />
+  <textarea
+    id="endereco-cliente"
+    placeholder="Rua, número, bairro, complemento"
+    rows="3"
+  ></textarea>
+  <textarea
+    id="observacao-cliente"
+    placeholder="Observação (opcional): troco, instruções especiais..."
+    rows="2"
+  ></textarea>
+</div>
 
         <!-- TOTAL E BOTÃO FINALIZAR PEDIDO -->
         <div class="carrinho-total">
@@ -136,8 +141,15 @@
   🛒 <span id="carrinho-contador">0</span>
 </button>
 
+<a href="https://wa.me/5563999665779?text=Olá! Tenho uma dúvida sobre um produto."
+  target="_blank"
+  id="btn-whatsapp-duvida"
+>
+  <i class="fab fa-whatsapp"></i>
+</a>
+
     <!-- BOTÃO VOLTAR AO TOPO -->
-    <button
+    <button 
       id="btn-topo"
       onclick="window.scrollTo({ top: 0, behavior: 'smooth' })"
     >

@@ -6,7 +6,7 @@ const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 let produtos = [];
 
-// ===== LOCALSTORAGE =====
+// ===== LOCALSTORAGE (guarda só as quantidades do carrinho) =====
 function salvarDados() {
   const quantidades = {};
   produtos.forEach((p) => {
@@ -36,7 +36,9 @@ async function carregarProdutosDoSupabase() {
     }
     preco = parseFloat(preco) || 0;
 
-    const categoria = (typeof p.categoria === "string" ? p.categoria : (p.categoria?.toString?.() ?? "")).toLowerCase();
+    const categoria = (
+      typeof p.categoria === "string" ? p.categoria : p.categoria?.toString?.() ?? ""
+    ).toLowerCase();
 
     return {
       id: p.id,
@@ -57,45 +59,9 @@ async function carregarProdutosDoSupabase() {
   }));
 
   inicializarCatalogo();
-  // ===== FILTRO DE CATEGORIA (estilo abas) =====
-function mostrarCategoria(categoria) {
-  document.querySelectorAll(".categoria").forEach((sec) => {
-    sec.classList.remove("ativa");
-  });
-  document.getElementById(categoria).classList.add("ativa");
-
-  document.querySelectorAll(".menu-categorias a").forEach((link) => {
-    link.classList.remove("ativo");
-  });
-  document
-    .querySelector(`.menu-categorias a[href="#${categoria}"]`)
-    .classList.add("ativo");
-
-  window.scrollTo({
-    top: document.querySelector(".menu-categorias").offsetTop,
-    behavior: "smooth",
-  });
-}
-
-document.querySelectorAll(".menu-categorias a").forEach((link) => {
-  link.addEventListener("click", (e) => {
-    e.preventDefault();
-    const categoria = link.getAttribute("href").substring(1);
-    mostrarCategoria(categoria);
-  });
-});
-
-// ===== ABRE O CARRINHO (usado pelo botão flutuante) =====
-function abrirCarrinho() {
-  document.querySelector(".carrinho").scrollIntoView({ behavior: "smooth" });
-}
   atualizarCarrinho();
-  const contador = document.getElementById("carrinho-contador");
-if (contador) {
-  const totalItens = produtos.reduce((acc, p) => acc + p.qtd, 0);
-  contador.innerText = totalItens;
-}
-}
+  mostrarCategoria("acougue"); // mostra a primeira categoria por padrão
+} // <- fecha carregarProdutosDoSupabase aqui, antes de qualquer outra função
 
 // ===== INICIA O CATÁLOGO =====
 function inicializarCatalogo() {
@@ -133,6 +99,42 @@ function inicializarCatalogo() {
   });
 }
 
+// ===== FILTRO DE CATEGORIA (estilo abas) =====
+function mostrarCategoria(categoria) {
+  document.querySelectorAll(".categoria").forEach((sec) => {
+    sec.classList.remove("ativa");
+  });
+  const secaoAlvo = document.getElementById(categoria);
+  if (secaoAlvo) secaoAlvo.classList.add("ativa");
+
+  document.querySelectorAll(".menu-categorias a").forEach((link) => {
+    link.classList.remove("ativo");
+  });
+  const linkAlvo = document.querySelector(`.menu-categorias a[href="#${categoria}"]`);
+  if (linkAlvo) linkAlvo.classList.add("ativo");
+
+  const menu = document.querySelector(".menu-categorias");
+  if (menu) {
+    window.scrollTo({ top: menu.offsetTop, behavior: "smooth" });
+  }
+}
+
+// liga o clique de cada link do menu à troca de categoria
+function iniciarMenuCategorias() {
+  document.querySelectorAll(".menu-categorias a").forEach((link) => {
+    link.addEventListener("click", (e) => {
+      e.preventDefault();
+      const categoria = link.getAttribute("href").substring(1);
+      mostrarCategoria(categoria);
+    });
+  });
+}
+
+// ===== ABRE O CARRINHO (botão flutuante) =====
+function abrirCarrinho() {
+  document.querySelector(".carrinho").scrollIntoView({ behavior: "smooth" });
+}
+
 // ===== AUMENTA QUANTIDADE =====
 function aumentar(id) {
   const produto = produtos.find((p) => p.id === id);
@@ -155,21 +157,23 @@ function diminuir(id) {
   }
 }
 
-// ===== ATUALIZA CARRINHO =====
+// ===== ATUALIZA CARRINHO (única versão, com contador flutuante) =====
 function atualizarCarrinho() {
   const lista = document.getElementById("lista-produtos");
   const totalDisplay = document.getElementById("total-pedido");
+  const contador = document.getElementById("carrinho-contador");
 
   if (!lista || !totalDisplay) return;
 
   lista.innerHTML = "";
   let total = 0;
-  let temItem = false;
+  let itensDistintos = 0;
 
   produtos.forEach((p) => {
     if (p.qtd > 0) {
-      temItem = true;
       total += p.preco * p.qtd;
+      itensDistintos++;
+
       lista.innerHTML += `
         <div class="carrinho-item">
           <span>${p.qtd}x ${p.nome}</span>
@@ -179,17 +183,22 @@ function atualizarCarrinho() {
     }
   });
 
-  if (!temItem) {
+  if (itensDistintos === 0) {
     lista.innerHTML = '<p class="carrinho-vazio">🛒 Seu carrinho está vazio</p>';
   }
 
   totalDisplay.innerText = `R$ ${total.toFixed(2)}`;
+
+  if (contador) {
+    contador.innerText = itensDistintos;
+  }
 }
 
 // ===== FINALIZA PEDIDO =====
 function finalizarPedido() {
   const nome = document.getElementById("nome-cliente").value.trim();
   const endereco = document.getElementById("endereco-cliente").value.trim();
+  const observacao = document.getElementById("observacao-cliente").value.trim();
 
   if (!nome || !endereco) {
     alert("⚠️ Por favor, preencha seu NOME e ENDEREÇO!");
@@ -197,8 +206,11 @@ function finalizarPedido() {
   }
 
   let mensagem = `Olá! Meu nome é ${nome}.%0A`;
-  mensagem += `Endereço para entrega: ${endereco}%0A%0A`;
-  mensagem += "📋 *Meu pedido:*%0A%0A";
+  mensagem += `Endereço para entrega: ${endereco}%0A`;
+  if (observacao) {
+    mensagem += `Observação: ${observacao}%0A`;
+  }
+  mensagem += "%0A📋 *Meu pedido:*%0A%0A";
 
   let totalPedido = 0;
 
@@ -222,25 +234,19 @@ function finalizarPedido() {
   window.open(urlWhatsApp, "_blank");
 }
 
-// ===== CARROSSEL DE BANNERS (VERSÃO MELHORADA) =====
+// ===== CARROSSEL DE BANNERS =====
 let slideAtual = 0;
 const slides = document.querySelectorAll(".slide");
 let intervaloCarrossel;
 
 function mostrarSlide(index) {
-  slides.forEach((slide) => {
-    slide.classList.remove("active");
-  });
-  if (slides[index]) {
-    slides[index].classList.add("active");
-  }
+  slides.forEach((slide) => slide.classList.remove("active"));
+  if (slides[index]) slides[index].classList.add("active");
 }
 
 function trocarSlide() {
   slideAtual++;
-  if (slideAtual >= slides.length) {
-    slideAtual = 0;
-  }
+  if (slideAtual >= slides.length) slideAtual = 0;
   mostrarSlide(slideAtual);
 }
 
@@ -250,43 +256,27 @@ function iniciarCarrossel() {
   let imagensCarregadas = 0;
   const totalSlides = slides.length;
 
+  function iniciarLoop() {
+    mostrarSlide(0);
+    intervaloCarrossel = setInterval(trocarSlide, 3000);
+  }
+
   slides.forEach((img) => {
     if (img.complete) {
       imagensCarregadas++;
     } else {
       img.addEventListener("load", () => {
         imagensCarregadas++;
-        if (imagensCarregadas === totalSlides) {
-          mostrarSlide(0);
-          intervaloCarrossel = setInterval(trocarSlide, 3000);
-        }
+        if (imagensCarregadas === totalSlides) iniciarLoop();
       });
       img.addEventListener("error", () => {
         imagensCarregadas++;
-        if (imagensCarregadas === totalSlides) {
-          mostrarSlide(0);
-          intervaloCarrossel = setInterval(trocarSlide, 3000);
-        }
+        if (imagensCarregadas === totalSlides) iniciarLoop();
       });
     }
   });
 
-  if (imagensCarregadas === totalSlides) {
-    mostrarSlide(0);
-    intervaloCarrossel = setInterval(trocarSlide, 3000);
-  }
-}
-
-// ===== MENU CATEGORIAS (STICKY COM DESTAQUE) =====
-function iniciarMenuCategorias() {
-  const links = document.querySelectorAll(".categoria-link");
-  
-  links.forEach((link) => {
-    link.addEventListener("click", function(e) {
-      links.forEach(l => l.classList.remove("ativo"));
-      this.classList.add("ativo");
-    });
-  });
+  if (imagensCarregadas === totalSlides) iniciarLoop();
 }
 
 // ===== INICIA O SISTEMA =====
@@ -295,14 +285,12 @@ document.addEventListener("DOMContentLoaded", () => {
   iniciarCarrossel();
   iniciarMenuCategorias();
 
-  // Pausa o carrossel quando a página não está visível
+  // pausa o carrossel quando a aba não está visível
   document.addEventListener("visibilitychange", () => {
     if (document.hidden) {
       clearInterval(intervaloCarrossel);
-    } else {
-      if (slides.length > 0) {
-        intervaloCarrossel = setInterval(trocarSlide, 3000);
-      }
+    } else if (slides.length > 0) {
+      intervaloCarrossel = setInterval(trocarSlide, 3000);
     }
   });
 });
