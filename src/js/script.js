@@ -157,6 +157,21 @@ function diminuir(id) {
   }
 }
 
+// ===== REMOVE ITEM DO CARRINHO =====
+function removerItem(id) {
+  const produto = produtos.find((p) => p.id === id);
+  if (produto) {
+    produto.qtd = 0;
+
+    // atualiza o contador na aba de produto também, se estiver visível
+    const contadorProduto = document.getElementById(`qtd-${id}`);
+    if (contadorProduto) contadorProduto.innerText = 0;
+
+    salvarDados();
+    atualizarCarrinho();
+  }
+}
+
 // ===== ATUALIZA CARRINHO (única versão, com contador flutuante) =====
 function atualizarCarrinho() {
   const lista = document.getElementById("lista-produtos");
@@ -174,12 +189,15 @@ function atualizarCarrinho() {
       total += p.preco * p.qtd;
       itensDistintos++;
 
-      lista.innerHTML += `
-        <div class="carrinho-item">
-          <span>${p.qtd}x ${p.nome}</span>
-          <span>R$ ${(p.preco * p.qtd).toFixed(2)}</span>
-        </div>
-      `;
+lista.innerHTML += `
+  <div class="carrinho-item">
+    <span>${p.qtd}x ${p.nome}</span>
+    <span class="carrinho-item-direita">
+      R$ ${(p.preco * p.qtd).toFixed(2)}
+      <button class="btn-remover" onclick="removerItem(${p.id})" title="Remover item">✕</button>
+    </span>
+  </div>
+`;
     }
   });
 

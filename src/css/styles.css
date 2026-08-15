@@ -602,3 +602,29 @@ body {
 #btn-whatsapp-duvida:hover {
   transform: scale(1.08);
 }
+
+.carrinho-item-direita {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.btn-remover {
+  background: #fdecea;
+  color: #e74c3c;
+  border: none;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  font-size: 0.75rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+
+.btn-remover:hover {
+  background: #e74c3c;
+  color: white;
+}
