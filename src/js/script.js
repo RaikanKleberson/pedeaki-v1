@@ -707,7 +707,9 @@ function atualizarCarrinho() {
 
     total += subtotal;
 
- quantidadeTotal += 1;
+    quantidadeTotal +=
+      produto.qtd;
+
 
     const item =
       document.createElement("div");
